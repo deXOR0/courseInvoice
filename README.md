@@ -5,7 +5,7 @@ A small program to calculate my course pricing and generate invoice, written in 
 - Added arguments feature to use the program without interactive mode
 - Minor bug fixes
   - Delete redudant checking for interactive mode
-  - Fixed hours option shows when user inputted begin and end time in interactive mode
+  - Fixed hours option shown when user inputted begin and end time in interactive mode
 
 # Why?
 I've been tutoring for almost a year now, and it's tiring to have to calculate how much the students have to pay me everytime I tutored them (I got paid by the hour)

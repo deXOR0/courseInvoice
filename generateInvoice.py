@@ -55,7 +55,7 @@ def process_data_be(recipient, student, begin, end):
     hours = translate(end) - translate(begin)
     totalPrice = price(hours)
     msg = "Halo {0}, tadi saya ngelesin {1} dari jam {2} sampai " \
-          "jam {3} jadi {4:g} jam, totalnya Rp. {5:,}".format(recipient, student, begin, end, hours, totalPrice['total'])
+          "jam {3} jadi {4:g} jam, totalnya Rp. {5:,}".format(recipient, student, begin, end, hours, totalPrice['tota'])
     output(msg, totalPrice['prices'])
 
 def translate(time):
@@ -68,8 +68,8 @@ def interactive():
     student = input("Student: ")
     begin = input("Begin: ")
     end = input("End: ")
-    hours = float(input("Hours: "))
     if (begin == "-1" or end == "-1"):
+        hours = float(input("Hours: "))
         process_data_h(recipient, student, hours)
     else:
         process_data_be(recipient, student, begin, end)
@@ -79,7 +79,7 @@ def output(msg, found):
     breakdown(found)
 
 if __name__ == '__main__':
-    if args.mode in ('i', 'interactive'):
+    if args.mode == 'interactive':
         interactive()
     else:
         if args.begin is not None and args.end is not None:

@@ -55,7 +55,7 @@ def process_data_be(recipient, student, begin, end):
     hours = translate(end) - translate(begin)
     totalPrice = price(hours)
     msg = "Halo {0}, tadi saya ngelesin {1} dari jam {2} sampai " \
-          "jam {3} jadi {4:g} jam, totalnya Rp. {5:,}".format(recipient, student, begin, end, hours, totalPrice['tota'])
+          "jam {3} jadi {4:g} jam, totalnya Rp. {5:,}".format(recipient, student, begin, end, hours, totalPrice['total'])
     output(msg, totalPrice['prices'])
 
 def translate(time):

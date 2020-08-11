@@ -1,4 +1,5 @@
 import argparse
+import pyperclip
 
 parser = argparse.ArgumentParser(description='Program to calculate course pricing and generate invoice')
 
@@ -39,12 +40,14 @@ def price(hours):
     return output
 
 def breakdown(found):
-    print('(', end='')
+    bd = ''
+    bd += '('
     for i in found:
-        print('{} * {} jam'.format(found[i], i), end=' ')
+        bd += '{} * {} jam'.format(found[i], i)
         if (i != list(found.keys())[-1]):
-            print(' + ', end=' ')
-    print(')')
+            bd += ' + '
+    bd += ')'
+    return bd
 
 def process_data_h(recipient, student, hours):
     totalPrice = price(hours)
@@ -76,7 +79,10 @@ def interactive():
 
 def output(msg, found):
     print(msg, end=' ')
-    breakdown(found)
+    bd = breakdown(found)
+    print(bd)
+    mixed = msg + ' ' + bd
+    pyperclip.copy(mixed)
 
 if __name__ == '__main__':
     if args.mode == 'interactive':

@@ -1,5 +1,4 @@
 import argparse
-import datetime
 import pyperclip
 
 parser = argparse.ArgumentParser(description='Program to calculate course pricing and generate invoice')
@@ -23,6 +22,7 @@ def price(hours):
     # Price calculation using greedy algorithm
     total = 0
     prices = {1.5 : 200000, 1 : 150000, 0.5 : 50000}
+    output = {}
     found = {}
     while (hours > 0):
         for i in prices:
@@ -34,34 +34,37 @@ def price(hours):
                 else:
                     found[i] = 1
                 break
+    output['total'] = total
+    output['prices'] = found
 
-    return total, found
+    return output
 
 def breakdown(found):
     bd = ''
     bd += '('
     for i in found:
-        bd += f'{found[i]} * {i} jam'
+        bd += '{} * {} jam'.format(found[i], i)
         if (i != list(found.keys())[-1]):
             bd += ' + '
     bd += ')'
     return bd
 
 def process_data_h(recipient, student, hours):
-    totalPrice, found = price(hours)
-    msg = f"Halo {recipient}, tadi saya ngelesin {student} {hours:g} jam, totalnya Rp. {totalPrice:,}"
-    output(msg, found)
+    totalPrice = price(hours)
+    msg = "Halo {0}, tadi saya ngelesin {1} {2:g} jam, totalnya Rp. {3:,}".format(recipient, student, hours, totalPrice['total'])
+    output(msg, totalPrice['prices'])
 
 def process_data_be(recipient, student, begin, end):
-    hours = (translate(end) - translate(begin)).seconds / 3600
-    print(hours)
-    totalPrice, found = price(hours)
-    msg = f"Halo {recipient}, tadi saya ngelesin {student} dari jam {begin} sampai jam {end} jadi {hours:g} jam, totalnya Rp.{totalPrice:,}"
-    output(msg, found)
+    hours = translate(end) - translate(begin)
+    totalPrice = price(hours)
+    msg = "Halo {0}, tadi saya ngelesin {1} dari jam {2} sampai " \
+          "jam {3} jadi {4:g} jam, totalnya Rp. {5:,}".format(recipient, student, begin, end, hours, totalPrice['total'])
+    output(msg, totalPrice['prices'])
 
 def translate(time):
-    hour, minute = [int(x) for x in time.split(':')]
-    return datetime.datetime.now().replace(hour=hour, minute=minute, second=0, microsecond=0)
+    hours = time[:time.find(':')]
+    minute = time[time.find(':') + 1:]
+    return float(hours) + (float(minute) / 60)
 
 def interactive():
     recipient = input("Recipient: ")
